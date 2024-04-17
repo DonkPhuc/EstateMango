@@ -188,7 +188,7 @@ const filterShouldShowData = computed(
 
 <template>
   <Spinner v-if="isLoading" />
-  <div class="w-full h-screen flex flex-col">
+  <div class="h-screen w-full map">
     <div
       :class="`sidebar flex flex-col gap-4 p-2 ${
         isShowSidebar ? 'open' : 'closed'
@@ -226,7 +226,6 @@ const filterShouldShowData = computed(
       </table>
     </div>
     <LMap
-      class="h-1 flex flex-1"
       ref="mapRef"
       :options="{ attributionControl: false, zoomControl: false }"
       :zoom="zoom"
@@ -329,5 +328,9 @@ const filterShouldShowData = computed(
 
 .sidebar.closed {
   left: -400px; /* Slide out to the left when closed */
+}
+
+.map {
+  min-height: -webkit-fill-available;
 }
 </style>
