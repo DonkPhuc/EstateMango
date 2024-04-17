@@ -18,9 +18,33 @@ const estateTileList = ref([
     checked: false,
   },
 ]);
+const customTileList = ref([
+  {
+    name: "money",
+    value:
+      "https://cdn.estatemanner.com/tile/neighbourhood/street_value/{z}/{x}/{y}.png",
+    icon: "carbon:character-whole-number",
+    checked: false,
+  },
+  {
+    name: "houseNumber",
+    value:
+      "https://cdn.estatemanner.com/tile/neighbourhood/house_number/{z}/{x}/{y}.png",
+    icon: "ri:money-dollar-box-fill",
+    checked: false,
+  },
+  {
+    name: "electricity",
+    value:
+      "https://cdn.estatemanner.com/tile/electrical_network/{z}/{x}/{y}.png",
+    icon: "ri:aed-fill",
+    checked: false,
+  },
+]);
 const mapRef = ref(null);
 const isShowSidebar = ref(false);
 const isLoading = ref(false);
+const isShowCustomLayerGroup = ref(false);
 const zoom = ref(16);
 const estateData = ref();
 const polygonPoints = ref<[number, number][]>([]);
@@ -55,8 +79,10 @@ const withLoading = async (action: () => Promise<void>) => {
  */
 const flyToMyLocation = async () => {
   await withLoading(async () => {
-    const { lat, lng } = await getCurrentLocation();
-    center.value = [lat, lng];
+    const result = await getCurrentLocation();
+    if (result?.lat && result?.lng) {
+      center.value = [result.lat, result.lng];
+    }
   });
 };
 
@@ -184,6 +210,13 @@ const filterShouldShowData = computed(
     );
   }
 );
+
+const selectCustomLayer = (name: string) => {
+  const customTile = customTileList.value.find((e) => e.name === name);
+  if (customTile) {
+    customTile.checked = !customTile.checked;
+  }
+};
 </script>
 
 <template>
@@ -241,6 +274,12 @@ const filterShouldShowData = computed(
       >
         <LTileLayer :url="item.value" layer-type="overlay" :max-zoom="18" />
       </div>
+      <div
+        v-for="(item, index) in customTileList.filter((e) => e.checked)"
+        :key="index"
+      >
+        <LTileLayer :url="item.value" layer-type="overlay" :max-zoom="18" />
+      </div>
       <LPolygon :lat-lngs="polygonPoints" layer-type="overlay" />
 
       <!-- topleft -->
@@ -263,7 +302,35 @@ const filterShouldShowData = computed(
       </LControl>
 
       <!-- bottomright -->
-      <LControl position="bottomright" class="flex flex-col gap-2 items-end">
+      <LControl
+        position="bottomright"
+        class="flex flex-col gap-2 items-end bottomright"
+      >
+        <div class="flex gap-2">
+          <div class="flex gap-2" v-if="isShowCustomLayerGroup">
+            <UButton
+              v-for="tile in customTileList"
+              :key="tile.name"
+              :color="tile.checked ? 'teal' : 'gray'"
+              @click="selectCustomLayer(tile.name)"
+              class="w-auto"
+            >
+              <Icon :name="tile.icon" />
+            </UButton>
+          </div>
+
+          <UButton
+            color="gray"
+            @click="isShowCustomLayerGroup = !isShowCustomLayerGroup"
+            class="w-auto"
+          >
+            <Icon
+              :name="
+                isShowCustomLayerGroup ? 'ri:close-large-fill' : 'ri:stack-fill'
+              "
+            />
+          </UButton>
+        </div>
         <div>
           <UButton
             color="gray"
@@ -335,5 +402,9 @@ const filterShouldShowData = computed(
 .map {
   height: 100dvh;
   min-height: -webkit-fill-available;
+}
+
+.bottomright {
+  z-index: 99999;
 }
 </style>
