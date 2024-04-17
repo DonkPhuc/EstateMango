@@ -306,6 +306,8 @@ const filterShouldShowData = computed(
   color: black;
   background-color: white; /* Adjust to your preferred background color */
   width: 100%;
+  min-height: -webkit-fill-available;
+  height: 100vh;
   max-width: 400px; /* Adjust the width as needed */
   position: fixed;
   top: 0;
