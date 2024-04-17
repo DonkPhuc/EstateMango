@@ -188,7 +188,7 @@ const filterShouldShowData = computed(
 
 <template>
   <Spinner v-if="isLoading" />
-  <div class="h-screen w-full map">
+  <div class="w-full map">
     <div
       :class="`sidebar flex flex-col gap-4 p-2 ${
         isShowSidebar ? 'open' : 'closed'
@@ -307,7 +307,7 @@ const filterShouldShowData = computed(
   background-color: white; /* Adjust to your preferred background color */
   width: 100%;
   min-height: -webkit-fill-available;
-  height: 100vh;
+  height: 100dvh;
   max-width: 400px; /* Adjust the width as needed */
   position: fixed;
   top: 0;
@@ -333,6 +333,7 @@ const filterShouldShowData = computed(
 }
 
 .map {
+  height: 100dvh;
   min-height: -webkit-fill-available;
 }
 </style>
