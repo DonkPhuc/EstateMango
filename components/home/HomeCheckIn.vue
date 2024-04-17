@@ -1,37 +1,37 @@
 <script setup lang="ts">
-const selected = ref(new Date().getDate());
-const token = ref("");
+const selected = ref(new Date().getDate())
+const token = ref('')
 
 onMounted(() => {
-  token.value = localStorage.getItem("token") || "";
-});
+  token.value = localStorage.getItem('token') || ''
+})
 
 const daysInMonth = computed(() => {
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1;
-  const currentYear = currentDate.getFullYear();
-  const days = new Date(currentYear, currentMonth, 0).getDate();
+  const currentDate = new Date()
+  const currentMonth = currentDate.getMonth() + 1
+  const currentYear = currentDate.getFullYear()
+  const days = new Date(currentYear, currentMonth, 0).getDate()
   return Array.from({ length: days }, (_, i) => {
-    const day = i + 1;
-    return day;
-  });
-});
+    const day = i + 1
+    return day
+  })
+})
 
-const { data, refresh } = await useFetch("/api/checkin", {
-  method: "post",
+const { data, refresh } = await useFetch('/api/checkin', {
+  method: 'post',
   immediate: false,
   onRequest({ options }) {
-    localStorage.setItem("token", token.value);
+    localStorage.setItem('token', token.value)
     options.body = {
       token: token.value,
       day: Number(selected.value),
-    };
+    }
   },
   body: {
     token: token.value,
     day: Number(selected.value),
   },
-});
+})
 </script>
 
 <template>
