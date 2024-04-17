@@ -16,6 +16,6 @@
 
 <style>
 .spinner {
-  z-index: 99999;
+  z-index: 9999;
 }
 </style>

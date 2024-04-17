@@ -285,6 +285,8 @@ const selectCustomLayer = (name: string) => {
       <!-- topleft -->
       <LControl position="topleft">
         <UButton
+          size="md"
+          :ui="{ rounded: 'rounded-full' }"
           color="gray"
           :class="`${isShowSidebar ? 'hidden' : 'block'}`"
           @click="toggleSidebar"
@@ -309,6 +311,7 @@ const selectCustomLayer = (name: string) => {
         <div class="flex gap-2">
           <div class="flex gap-2" v-if="isShowCustomLayerGroup">
             <UButton
+              size="md"
               v-for="tile in customTileList"
               :key="tile.name"
               :color="tile.checked ? 'teal' : 'gray'"
@@ -320,27 +323,20 @@ const selectCustomLayer = (name: string) => {
           </div>
 
           <UButton
+            size="md"
             color="gray"
             @click="isShowCustomLayerGroup = !isShowCustomLayerGroup"
-            class="w-auto"
-          >
-            <Icon
-              :name="
-                isShowCustomLayerGroup ? 'ri:close-large-fill' : 'ri:stack-fill'
-              "
-            />
-          </UButton>
+            icon="i-heroicons-square-3-stack-3d-16-solid"
+          />
         </div>
-        <div>
-          <UButton
-            color="gray"
-            @click="flyToMyLocation"
-            class="w-auto"
-            title="Find my location"
-          >
-            <Icon name="ri:focus-3-line" />
-          </UButton>
-        </div>
+        <UButton
+          size="md"
+          color="gray"
+          @click="flyToMyLocation"
+          title="Find my location"
+          icon="i-heroicons-map-pin-solid"
+        />
+
         <button
           class="w-16 h-16 border border-white rounded-md relative"
           @click="changeLayer"
