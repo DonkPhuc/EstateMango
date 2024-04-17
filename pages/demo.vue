@@ -5,5 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <LeafletMap />
+  <div class="bg-white">
+    <Spinner />
+  </div>
 </template>

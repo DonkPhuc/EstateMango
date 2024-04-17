@@ -1,18 +1,22 @@
-![nuxt-ui-dashboard-social-card](https://github.com/nuxt-ui-pro/dashboard/assets/739984/f785284b-7db2-4732-af0e-2cb3c0bd7ca2)
+# Nuxtship - Nuxt SAAS Starter Website Template
 
-# Nuxt UI Pro - Dashboard template
+Nuxtship is a free starter nuxt website template for saas, startups, marketing websites & landing pages. Built with Nuxt & TailwindCSS.
 
-[![Nuxt UI Pro](https://img.shields.io/badge/Made%20with-Nuxt%20UI%20Pro-00DC82?logo=nuxt.js&labelColor=020420)](https://ui.nuxt.com/pro)
+This Free Template is sponsored by [Gr33nW33n](https://github.com/Gr33nW33n)
 
-- [Live demo](https://dashboard-template.nuxt.dev/)
-- [Play on Stackblitz](https://stackblitz.com/github/nuxt-ui-pro/dashboard)
-- [Documentation](https://ui.nuxt.com/pro/getting-started)
+If you like my work please feel free to
 
-## Quick Start
+<a href="https://www.paypal.com/paypalme/jakobaichmayr" target="_blank">
+  <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" alt="Donate with PayPal" width="260" />
+</a>
 
-```bash [Terminal]
-npx nuxi init -t github:nuxt-ui-pro/dashboard
-```
+## Live Demo
+
+**[https://nuxtship.netlify.app/](https://nuxtship.netlify.app/)**
+
+## Built with Nuxt 3 Minimal Starter
+
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
 
@@ -86,6 +90,8 @@ bun run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
-## Renovate integration
+## Attributions
 
-Install [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository and you are good to go.
+Original Astroship Template: **[https://astroship.web3templates.com/](https://astroship.web3templates.com/)** from **[Web3Templates](https://web3templates.com/)**
+
+Forked from: **[https://github.com/surjithctly/astroship](https://github.com/surjithctly/astroship)**
