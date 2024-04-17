@@ -188,116 +188,115 @@ const filterShouldShowData = computed(
 
 <template>
   <Spinner v-if="isLoading" />
-
-  <div style="height: 100vh; width: 100vw">
-    <!-- sidebar -->
-    <div
-      :class="`sidebar flex flex-col gap-4 p-2 ${
-        isShowSidebar ? 'open' : 'closed'
-      }`"
-    >
-      <div class="flex justify-between items-center">
-        <p class="font-bold text-xl">BẢN ĐỒ QUY HOẠCH</p>
-        <Icon name="ri:close-large-fill" @click="toggleSidebar" />
-      </div>
-      <div class="flex gap-2">
-        <div v-for="item in estateTileList" :key="item.name">
-          <UCheckbox @click="handleCheckedOverlay(item)">
-            <template #label>
-              <span class="italic text-black"> {{ item.name }} </span>
-            </template>
-          </UCheckbox>
-        </div>
-      </div>
-      <!-- <UButton color='gray' block>Tìm kiếm</UButton> -->
-      <!-- Detail content -->
-      <p class="font-bold text-xl">Thông tin chi tiết</p>
-      <table class="divide-y divide-gray-200 bg-white">
-        <template v-if="estateData">
-          <tbody v-for="(value, key) in estateData" :key="key">
-            <tr v-if="filterShouldShowData(key, value)">
-              <td class="py-3 text-sm font-medium text-gray-900">
-                {{ translateKey(key.toString()) }} : <b>{{ value }}</b>
-              </td>
-            </tr>
-          </tbody>
-        </template>
-        <template v-else>
-          <i>Không tìm thấy dữ liệu tại khu vực này!</i>
-        </template>
-      </table>
-    </div>
-
-    <LMap
-      ref="mapRef"
-      :options="{ attributionControl: false, zoomControl: false }"
-      :zoom="zoom"
-      :center="center"
-      :bounds="center"
-      @click="handleMapClick"
-    >
-      <LTileLayer :url="urlTile" layer-type="base" />
-      <LMarker :latLng="center" />
+  <div class="w-full h-screen flex flex-col">
+    <div class="h-1 flex flex-1">
       <div
-        v-for="(item, index) in estateTileList.filter((e) => e.checked)"
-        :key="index"
+        :class="`sidebar flex flex-col gap-4 p-2 ${
+          isShowSidebar ? 'open' : 'closed'
+        }`"
       >
-        <LTileLayer :url="item.value" layer-type="overlay" :max-zoom="18" />
+        <div class="flex justify-between items-center">
+          <p class="font-bold text-xl">BẢN ĐỒ QUY HOẠCH</p>
+          <Icon name="ri:close-large-fill" @click="toggleSidebar" />
+        </div>
+        <div class="flex gap-2">
+          <div v-for="item in estateTileList" :key="item.name">
+            <UCheckbox @click="handleCheckedOverlay(item)">
+              <template #label>
+                <span class="italic text-black"> {{ item.name }} </span>
+              </template>
+            </UCheckbox>
+          </div>
+        </div>
+        <!-- <UButton color='gray' block>Tìm kiếm</UButton> -->
+        <!-- Detail content -->
+        <p class="font-bold text-xl">Thông tin chi tiết</p>
+        <table class="divide-y divide-gray-200 bg-white">
+          <template v-if="estateData">
+            <tbody v-for="(value, key) in estateData" :key="key">
+              <tr v-if="filterShouldShowData(key, value)">
+                <td class="py-3 text-sm font-medium text-gray-900">
+                  {{ translateKey(key.toString()) }} : <b>{{ value }}</b>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+          <template v-else>
+            <i>Không tìm thấy dữ liệu tại khu vực này!</i>
+          </template>
+        </table>
       </div>
-      <LPolygon :lat-lngs="polygonPoints" layer-type="overlay" />
+      <LMap
+        ref="mapRef"
+        :options="{ attributionControl: false, zoomControl: false }"
+        :zoom="zoom"
+        :center="center"
+        :bounds="center"
+        @click="handleMapClick"
+      >
+        <LTileLayer :url="urlTile" layer-type="base" />
+        <LMarker :latLng="center" />
+        <div
+          v-for="(item, index) in estateTileList.filter((e) => e.checked)"
+          :key="index"
+        >
+          <LTileLayer :url="item.value" layer-type="overlay" :max-zoom="18" />
+        </div>
+        <LPolygon :lat-lngs="polygonPoints" layer-type="overlay" />
 
-      <!-- topleft -->
-      <LControl position="topleft">
-        <UButton
-          color="gray"
-          :class="`${isShowSidebar ? 'hidden' : 'block'}`"
-          @click="toggleSidebar"
-          ><Icon name="ri:information-2-fill"
-        /></UButton>
-      </LControl>
-
-      <!-- topright -->
-      <LControl class="flex flex-wrap gap-2" position="topright">
-        <UButton color="gray">Nâng cấp gói</UButton>
-        <UButton color="gray">Lượt tra cứu 0/5</UButton>
-        <UButton color="gray" @click="flyToMyLocation"
-          ><Icon name="uil:github"
-        /></UButton>
-      </LControl>
-
-      <!-- bottomright -->
-      <LControl position="bottomright">
-        <!-- <div>
+        <!-- topleft -->
+        <LControl position="topleft">
           <UButton
             color="gray"
-            @click="flyToMyLocation"
-            class="w-auto"
-            title="Find my location"
-          >
-            <Icon name="ri:focus-3-line" />
-          </UButton>
-        </div> -->
-        <button
-          class="w-16 h-16 border border-white rounded-md relative"
-          @click="changeLayer"
-        >
-          <img
-            :src="
-              urlTile.includes('rs=y')
-                ? 'https://cdn.tgdd.vn/Files/2021/09/16/1383076/cachdocbandodiahinh6-_1366x768-800-resize.jpg'
-                : 'https://i1.wp.com/www.gearthblog.com/wp-content/uploads/2017/01/ColdSpringExtent.jpg'
-            "
-            class="w-full h-full rounded-md"
-            alt=""
-          />
+            :class="`${isShowSidebar ? 'hidden' : 'block'}`"
+            @click="toggleSidebar"
+            ><Icon name="ri:information-2-fill"
+          /></UButton>
+        </LControl>
 
-          <span
-            class="w-full rounded-b-md absolute bottom-0 right-0 bg-black opacity-80"
-            >{{ urlTile.includes("rs=y") ? "Địa hình" : "Vệ tinh" }}</span
+        <!-- topright -->
+        <LControl class="flex flex-wrap gap-2" position="topright">
+          <UButton color="gray">Nâng cấp gói</UButton>
+          <UButton color="gray">Lượt tra cứu 0/5</UButton>
+          <UButton color="gray" @click="flyToMyLocation"
+            ><Icon name="uil:github"
+          /></UButton>
+        </LControl>
+
+        <!-- bottomright -->
+        <LControl position="bottomright" class="flex flex-col gap-2 items-end">
+          <div>
+            <UButton
+              color="gray"
+              @click="flyToMyLocation"
+              class="w-auto"
+              title="Find my location"
+            >
+              <Icon name="ri:focus-3-line" />
+            </UButton>
+          </div>
+          <button
+            class="w-16 h-16 border border-white rounded-md relative"
+            @click="changeLayer"
           >
-        </button>
-      </LControl>
-    </LMap>
+            <img
+              :src="
+                urlTile.includes('rs=y')
+                  ? 'https://cdn.tgdd.vn/Files/2021/09/16/1383076/cachdocbandodiahinh6-_1366x768-800-resize.jpg'
+                  : 'https://i1.wp.com/www.gearthblog.com/wp-content/uploads/2017/01/ColdSpringExtent.jpg'
+              "
+              class="w-full h-full rounded-md"
+              alt=""
+            />
+
+            <span
+              class="w-full rounded-b-md absolute bottom-0 right-0 bg-black opacity-80"
+              >{{ urlTile.includes("rs=y") ? "Địa hình" : "Vệ tinh" }}</span
+            >
+          </button>
+        </LControl>
+      </LMap>
+    </div>
   </div>
 </template>
 
