@@ -266,8 +266,8 @@ const filterShouldShowData = computed(
       </LControl>
 
       <!-- bottomright -->
-      <LControl position="bottomright" class="flex flex-col gap-2 items-end">
-        <div>
+      <LControl position="bottomright">
+        <!-- <div>
           <UButton
             color="gray"
             @click="flyToMyLocation"
@@ -276,7 +276,7 @@ const filterShouldShowData = computed(
           >
             <Icon name="ri:focus-3-line" />
           </UButton>
-        </div>
+        </div> -->
         <button
           class="w-16 h-16 border border-white rounded-md relative"
           @click="changeLayer"
